@@ -33,6 +33,37 @@ The skill guides you through the choices that matter, generates the appropriate 
 
 Don't keep useful improvements in a personal repository. Build projects using the shared standard, test and verify them, then contribute your improvements here. Adding documentation, tests, templates, and fixes to an existing repository is a great way to learn the collaboration workflow.
 
+### 1. Build in your own GitHub account
+
+Create and own the repository in your personal GitHub account while you are developing it. Run the project locally, verify its behavior, and make the initial history before asking the organization to take ownership:
+
+```bash
+git init
+git add .
+git commit -m "Initial project"
+git branch -M main
+git remote add origin https://github.com/YOUR-USERNAME/my-oci-project.git
+git push -u origin main
+```
+
+Before the handoff, run the project's setup, tests, linting, and `check_project.py` check. Review `git status` and the files being committed to ensure no OCI configuration, private keys, tokens, `.env` files, or generated artifacts are included.
+
+### 2. Move the repository into the organization
+
+When the project is ready for shared ownership, ask an organization owner to review it and confirm the intended repository name, visibility, maintainers, and any required license or contribution files. Then choose one of these paths:
+
+**Transfer the repository** — use this when the organization should become the repository's owner while preserving its full Git history, issues, releases, and pull requests. In the personal repository, open **Settings** → **General** → **Danger Zone** → **Transfer**, enter `oci-codex-powerusers` as the new owner, and confirm the repository name. You need administrator access to the personal repository and permission to create repositories in the organization. GitHub keeps the original owner as a collaborator; organization policies apply after the transfer. See GitHub's [repository-transfer requirements and steps](https://docs.github.com/en/repositories/creating-and-managing-repositories/transferring-a-repository).
+
+**Push to a new organization repository** — use this when an organization maintainer creates an empty destination repository first. Preserve the personal remote, add the organization remote, and push the reviewed branch after you have been granted write access:
+
+```bash
+git remote rename origin personal
+git remote add origin git@github.com:oci-codex-powerusers/my-oci-project.git
+git push -u origin main
+```
+
+If you do not have the necessary organization permission, do not attempt the transfer or push. Send the personal repository URL to an organization owner and ask them to create the destination repository or approve the transfer.
+
 ## Learnings
 
 * Learn to read and improve code.

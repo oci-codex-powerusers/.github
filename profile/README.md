@@ -2,6 +2,12 @@
 
 This organization is a place to build, share, and contribute OCI projects with Codex. Start new OCI-backed Python or Node.js projects with our standard skills, then bring your improvements back to the community.
 
+## Read approval prompts before accepting
+
+Codex asks for approval before actions that can change your computer, repository, cloud resources, or external services. Those prompts are intentional safety checkpoints, not routine buttons to click through.
+
+Before approving, read the proposed command or action and confirm its target, scope, and expected effect. In particular, pause for actions that install software, create or change OCI resources, publish or delete data, modify Git history, or send information outside your computer. If the request is unclear or broader than you expected, decline it and ask Codex to explain or narrow the action first.
+
 ## Start an OCI Python project
 
 Clone the [OCI Python Project Standard](https://github.com/oci-codex-powerusers/oci-python-project-skill) and link the included skill into Codex:

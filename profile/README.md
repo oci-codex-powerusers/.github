@@ -1,6 +1,6 @@
 # OCI Codex Power Users
 
-This organization is a place to build, share, and contribute OCI projects with Codex. Start new OCI-backed Python projects with our standard skill, then bring your improvements back to the community.
+This organization is a place to build, share, and contribute OCI projects with Codex. Start new OCI-backed Python or Node.js projects with our standard skills, then bring your improvements back to the community.
 
 ## Start an OCI Python project
 
@@ -28,6 +28,37 @@ Ask Codex to use the skill with a request that states your project purpose, pref
 > Create a new OCI Python project for a team that inventories Object Storage buckets. Use the CLI format, instance-principal authentication in production, local config-file authentication for development, and `uv` for dependencies. Apply the `oci-python-project` skill and explain the IAM permissions it needs.
 
 The skill guides you through the choices that matter, generates the appropriate project shape, and includes documentation and a structural checker. Before considering the project complete, run its `uv` setup, tests, linting, and the included `check_project.py` checker.
+
+## Start an OCI Node.js project
+
+You need Git and the Codex desktop app. Clone the [OCI Node.js Project Standard](https://github.com/oci-codex-powerusers/oci-node-project-skill), then link the included skill into Codex:
+
+```bash
+git clone https://github.com/oci-codex-powerusers/oci-node-project-skill.git
+cd oci-node-project-skill
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/oci-node-project" ~/.codex/skills/oci-node-project
+```
+
+The symbolic link keeps your local skill current when you run `git pull --ff-only` in the cloned repository. Check that the installation worked with `ls -l ~/.codex/skills/oci-node-project`. If that path already exists, do not overwrite it; check where it points, then update the existing clone or replace it only when you are sure it is no longer needed.
+
+Open a **new Codex task** after installing the skill, then create an empty repository for your project:
+
+```bash
+mkdir my-oci-node-project
+cd my-oci-node-project
+git init
+```
+
+Ask Codex for the project you want. State the project purpose, users, OCI services, authentication model, and whether it should run locally only or deploy to OCI Container Instances behind an existing Load Balancer. For example:
+
+> Create a new OCI Node.js project for a team that inventories Object Storage buckets. Use the CLI format, local config-file authentication for development, instance principals in OCI, and local-only deployment. Apply the `oci-node-project` skill and explain the IAM permissions it needs.
+
+To bring an existing Node application into the standard, keep its working public behavior and ask for the appropriate format rather than asking for a rewrite. For example:
+
+> Ensure my PAR browser follows best practices around OCI Node apps. Apply the `oci-node-project` skill, preserve its existing user-facing behavior, treat direct Object Storage PAR HTTPS calls as OCI use, document any temporary standard exceptions, and explain the changes before making them.
+
+The skill adds or validates the project contract, operational documentation, `check`, `test`, `build`, and safe `clean` commands, and the included `check-project.mjs` structural checker. For an OCI container deployment, it first requires an explicit deployment plan and scripts that operate only on named, pre-existing OCI network and Load Balancer resources.
 
 ## Contribute
 

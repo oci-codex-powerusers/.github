@@ -2,11 +2,6 @@
 
 This organization is a place to build, share, and contribute OCI projects with Codex. Start new OCI-backed Python or Node.js projects with our standard skills, then bring your improvements back to the community.
 
-## Read approval prompts before accepting
-
-Codex asks for approval before actions that can change your computer, repository, cloud resources, or external services. Those prompts are intentional safety checkpoints, not routine buttons to click through.
-
-Before approving, read the proposed command or action and confirm its target, scope, and expected effect. In particular, pause for actions that install software, create or change OCI resources, publish or delete data, modify Git history, or send information outside your computer. If the request is unclear or broader than you expected, decline it and ask Codex to explain or narrow the action first.
 
 ## Start an OCI Python project
 
@@ -27,17 +22,14 @@ Open a new Codex task after installing the skill, then create an empty repositor
 mkdir my-oci-project
 cd my-oci-project
 git init
+codex
 ```
 
-Ask Codex to use the skill with a request that states your project purpose, preferred format, OCI services, and authentication or deployment needs. For example:
-
-> Create a new OCI Python project for a team that inventories Object Storage buckets. Use the CLI format, instance-principal authentication in production, local config-file authentication for development, and `uv` for dependencies. Apply the `oci-python-project` skill and explain the IAM permissions it needs.
-
-The skill guides you through the choices that matter, generates the appropriate project shape, and includes documentation and a structural checker. Before considering the project complete, run its `uv` setup, tests, linting, and the included `check_project.py` checker.
+The Python skill guides implementation choices and includes documentation and a structural checker. Before considering a project complete, run its `uv` setup, tests, linting, and the included `check_project.py` checker. Start with the planning workflow below so the skill has a clear, reviewed context file to follow.
 
 ## Start an OCI Node.js project
 
-You need Git and the Codex desktop app. Clone the [OCI Node.js Project Standard](https://github.com/oci-codex-powerusers/oci-node-project-skill), then link the included skill into Codex:
+Clone the [OCI Node.js Project Standard](https://github.com/oci-codex-powerusers/oci-node-project-skill), then link the included skill into Codex:
 
 ```bash
 git clone https://github.com/oci-codex-powerusers/oci-node-project-skill.git
@@ -46,25 +38,51 @@ mkdir -p ~/.codex/skills
 ln -s "$PWD/skills/oci-node-project" ~/.codex/skills/oci-node-project
 ```
 
-The symbolic link keeps your local skill current when you run `git pull --ff-only` in the cloned repository. Check that the installation worked with `ls -l ~/.codex/skills/oci-node-project`. If that path already exists, do not overwrite it; check where it points, then update the existing clone or replace it only when you are sure it is no longer needed.
+The symbolic link keeps your local skill current when you pull updates in the cloned repository. If `~/.codex/skills/oci-node-project` already exists, inspect and update that installation instead of overwriting it.
 
-Open a **new Codex task** after installing the skill, then create an empty repository for your project:
+Open a new Codex task after installing the skill, then create an empty repository for your project:
 
 ```bash
 mkdir my-oci-node-project
 cd my-oci-node-project
 git init
+codex
 ```
 
-Ask Codex for the project you want. State the project purpose, users, OCI services, authentication model, and whether it should run locally only or deploy to OCI Container Instances behind an existing Load Balancer. For example:
+The Node.js skill adds or validates the project contract, operational documentation, `check`, `test`, `build`, and safe `clean` commands, and the included `check-project.mjs` structural checker. For an OCI container deployment, it first requires an explicit deployment plan and scripts that operate only on named, pre-existing OCI network and Load Balancer resources. Start with the planning workflow below so the skill has a clear, reviewed context file to follow.
 
-> Create a new OCI Node.js project for a team that inventories Object Storage buckets. Use the CLI format, local config-file authentication for development, instance principals in OCI, and local-only deployment. Apply the `oci-node-project` skill and explain the IAM permissions it needs.
+## Project Planning
 
-To bring an existing Node application into the standard, keep its working public behavior and ask for the appropriate format rather than asking for a rewrite. For example:
+Before asking Codex to build, make a short plan with goals, decisions, and context. This gives the project a shared starting point: who it serves, the outcome it should deliver, the chosen presentation and logic shape, OCI boundaries, and the questions that still need an answer.
 
-> Ensure my PAR browser follows best practices around OCI Node apps. Apply the `oci-node-project` skill, preserve its existing user-facing behavior, treat direct Object Storage PAR HTTPS calls as OCI use, document any temporary standard exceptions, and explain the changes before making them.
+Read the [project planning guide](../docs/project-planning.md). It explains how to separate presentation, application logic, and OCI integration; compare Python and Node.js options by purpose and team skill set; and create a `PROJECT_PLAN.md` context file. Do not put credentials, private keys, tokens, or real OCI identifiers in that file.
 
-The skill adds or validates the project contract, operational documentation, `check`, `test`, `build`, and safe `clean` commands, and the included `check-project.mjs` structural checker. For an OCI container deployment, it first requires an explicit deployment plan and scripts that operate only on named, pre-existing OCI network and Load Balancer resources.
+**Start with a planning prompt, not an implementation prompt.**
+
+### For a Python project
+
+> Help me plan an OCI Python project before building it. The goal is to help a team that inventories Object Storage buckets understand what they own and act on stale data. The primary users are cloud operators who work from a terminal during weekly reviews. We need Object Storage access, local config-file authentication for development, and instance-principal authentication after deployment. Create `PROJECT_PLAN.md`, recommend the smallest suitable project shape, list trade-offs and open questions, and do not implement it yet.
+
+### For a Node.js project
+
+> Help me plan an OCI Node.js project before building it. The goal is to help a team safely browse and use Object Storage PAR links. The primary users are support and operations staff who need a desktop workflow and local file selection. The application calls OCI through PAR HTTPS URLs, and the team is strongest in TypeScript. Create `PROJECT_PLAN.md`, recommend the smallest suitable presentation and logic shape, list trade-offs and open questions, and do not implement it yet.
+
+
+## Codex Execution
+
+When the plan is correct, ask Codex to build from it:
+
+> Read `PROJECT_PLAN.md` and build the project it describes. Apply the `oci-python-project` or `oci-node-project` skill as appropriate. Preserve the plan's decisions and constraints, ask before making a material architecture or OCI deployment change, and document any necessary exception.
+
+When Codex is done, either check the built project's `README.md` or ask it how to run the project.  It is
+likely that some setup is required from the terminal, such as Python or Node.js runtimes.  You can ask
+Codex how to set those up too if you get stuck.
+
+### Read approval prompts before accepting
+
+Codex asks for approval before actions that can change your computer, repository, cloud resources, or external services. Those prompts are intentional safety checkpoints, not routine buttons to click through.
+
+Before approving, read the proposed command or action and confirm its target, scope, and expected effect. In particular, pause for actions that install software, create or change OCI resources, publish or delete data, modify Git history, or send information outside your computer. If the request is unclear or broader than you expected, decline it and ask Codex to explain or narrow the action first.
 
 ## Contribute
 
@@ -100,13 +118,3 @@ git push -u origin main
 ```
 
 If you do not have the necessary organization permission, do not attempt the transfer or push. Send the personal repository URL to an organization owner and ask them to create the destination repository or approve the transfer.
-
-## Learnings
-
-* Learn to read and improve code.
-* Learn GitHub collaboration through real contributions.
-* Set up and use Codex effectively.
-
-## Guidelines
-
-Keep contributions focused, documented, tested, and free of credentials or private OCI configuration. Each repository may add project-specific contribution instructions.
